@@ -1,11 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
 const path = require('path');
 const pool = require('./config/database');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
+
+// Load passport strategies
+require('./config/passport');
 
 const app = express();
 
@@ -21,6 +25,10 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false } // Set to true if using HTTPS
 }));
+
+// Passport initialization
+app.use(passport.initialize());
+app.use(passport.session());
 
 // View engine
 app.set('view engine', 'ejs');
