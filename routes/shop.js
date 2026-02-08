@@ -15,10 +15,25 @@ router.get('/', async (req, res) => {
     }
 
     const productsResult = await pool.query(query, params);
+    
+    // Fetch photos for each product
+    const productsWithPhotos = await Promise.all(
+      productsResult.rows.map(async (product) => {
+        const photosResult = await pool.query(
+          'SELECT photo_url FROM product_photos WHERE product_id = $1 ORDER BY display_order LIMIT 1',
+          [product.id]
+        );
+        return {
+          ...product,
+          firstPhoto: photosResult.rows.length > 0 ? photosResult.rows[0].photo_url : null
+        };
+      })
+    );
+
     const categoriesResult = await pool.query('SELECT * FROM categories');
 
     res.render('shop/index', {
-      products: productsResult.rows,
+      products: productsWithPhotos,
       categories: categoriesResult.rows,
       currentCategory: category || null,
       user: req.session.userId ? { id: req.session.userId } : null
@@ -39,8 +54,14 @@ router.get('/product/:slug', async (req, res) => {
       return res.status(404).render('404');
     }
 
+    const photosResult = await pool.query(
+      'SELECT * FROM product_photos WHERE product_id = $1 ORDER BY display_order',
+      [result.rows[0].id]
+    );
+
     res.render('shop/product', {
       product: result.rows[0],
+      photos: photosResult.rows,
       user: req.session.userId ? { id: req.session.userId } : null
     });
   } catch (err) {

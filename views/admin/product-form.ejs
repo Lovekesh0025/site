@@ -140,6 +140,66 @@
     .logout:hover {
       background: #c2185b;
     }
+
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .photo-item {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-delete {
+      width: 100%;
+      padding: 0.5rem;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .btn-delete:hover {
+      background: #c82333;
+    }
+
+    .file-input-wrapper {
+      border: 2px dashed #ddd;
+      padding: 2rem;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .file-input-wrapper:hover {
+      border-color: #e91e63;
+      background: #f9e9f3;
+    }
+
+    .file-input-wrapper input {
+      display: none;
+    }
+
+    .file-input-label {
+      cursor: pointer;
+      color: #e91e63;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -161,7 +221,7 @@
       </header>
 
       <div class="form-container">
-        <form method="POST" action="<%= product ? `/admin/products/${product.id}` : '/admin/products' %>">
+        <form method="POST" action="<%= product ? `/admin/products/${product.id}` : '/admin/products' %>" enctype="multipart/form-data">
           <div class="form-group">
             <label for="name">Product Name *</label>
             <input type="text" id="name" name="name" value="<%= product ? product.name : '' %>" required>
@@ -194,6 +254,34 @@
             <input type="number" id="stock" name="stock" value="<%= product ? product.stock : '' %>" required>
           </div>
 
+          <div class="form-group">
+            <label>Product Photos</label>
+            <div class="file-input-wrapper" onclick="document.getElementById('photos').click();">
+              <div class="file-input-label">
+                📷 Click to upload photos or drag and drop<br>
+                <small style="margin-top: 0.5rem;">Up to 10 images, 5MB max per file</small>
+              </div>
+              <input type="file" id="photos" name="photos" multiple accept="image/*">
+            </div>
+            <small style="margin-top: 0.5rem; color: #666;">Supported formats: JPEG, PNG, GIF, WebP</small>
+          </div>
+
+          <% if (typeof photos !== 'undefined' && photos.length > 0) { %>
+            <div class="form-group">
+              <label>Existing Photos (<%= photos.length %>)</label>
+              <div class="photos-grid">
+                <% photos.forEach((photo) => { %>
+                  <div class="photo-item">
+                    <img src="<%= photo.photo_url %>" alt="Product photo">
+                    <form method="POST" action="/admin/products/<%= product.id %>/photos/<%= photo.id %>/delete" style="margin: 0;">
+                      <button type="submit" class="btn-delete" onclick="return confirm('Delete this photo?')">Delete</button>
+                    </form>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+
           <div class="form-actions">
             <button type="submit" class="btn">
               <%= product ? 'Update Product' : 'Add Product' %>
@@ -204,5 +292,47 @@
       </div>
     </main>
   </div>
+
+  <script>
+    const fileInput = document.getElementById('photos');
+    const fileInputWrapper = document.querySelector('.file-input-wrapper');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      fileInputWrapper.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      fileInputWrapper.addEventListener(eventName, () => {
+        fileInputWrapper.style.borderColor = '#e91e63';
+        fileInputWrapper.style.backgroundColor = '#f9e9f3';
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      fileInputWrapper.addEventListener(eventName, () => {
+        fileInputWrapper.style.borderColor = '#ddd';
+        fileInputWrapper.style.backgroundColor = 'transparent';
+      }, false);
+    });
+
+    fileInputWrapper.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      fileInput.files = files;
+    }, false);
+
+    fileInput.addEventListener('change', (e) => {
+      const count = e.target.files.length;
+      if (count > 0) {
+        const label = fileInputWrapper.querySelector('.file-input-label');
+        label.innerHTML = '✓ ' + count + ' file(s) selected';
+      }
+    });
+  </script>
 </body>
 </html>
