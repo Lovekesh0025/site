@@ -91,7 +91,79 @@
       padding: 4rem 2rem;
       color: #999;
     }
-  </style>
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+
+      .cart-table {
+        font-size: 0.9rem;
+      }
+
+      .cart-table th,
+      .cart-table td {
+        padding: 0.75rem;
+      }
+
+      .cart-summary {
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 1rem auto;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .cart-table {
+        font-size: 0.8rem;
+      }
+
+      .cart-table th,
+      .cart-table td {
+        padding: 0.5rem;
+      }
+
+      .summary-row {
+        font-size: 0.9rem;
+      }
+
+      .summary-row.total {
+        font-size: 1.1rem;
+      }
+
+      .btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+      }
+
+      .empty-message {
+        padding: 2rem 1rem;
+      }
+
+      .empty-message h2 {
+        font-size: 1.2rem;
+      }
+
+      .empty-message p {
+        font-size: 0.9rem;
+      }
+    }
 </head>
 <body>
   <div class="container">

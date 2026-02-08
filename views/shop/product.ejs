@@ -184,6 +184,98 @@
       .product-detail {
         grid-template-columns: 1fr;
       }
+
+      .product-image-main {
+        height: 300px;
+      }
+
+      .product-details h1 {
+        font-size: 1.5rem;
+      }
+
+      .price {
+        font-size: 1.5rem;
+      }
+
+      .quantity-selector {
+        flex-wrap: wrap;
+      }
+
+      .quantity-selector input {
+        width: 80px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      nav {
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem 10px;
+      }
+
+      .product-image-main {
+        height: 200px;
+      }
+
+      .product-image-container {
+        gap: 0.75rem;
+      }
+
+      .product-thumbnails {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 0.5rem;
+      }
+
+      .thumbnail {
+        width: 60px;
+        height: 60px;
+      }
+
+      .product-details h1 {
+        font-size: 1.2rem;
+      }
+
+      .price {
+        font-size: 1.3rem;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
+
+      .quantity-selector {
+        gap: 0.5rem;
+      }
+
+      .quantity-selector label {
+        font-size: 0.9rem;
+      }
+
+      .quantity-selector input {
+        width: 60px;
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .btn-back {
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>

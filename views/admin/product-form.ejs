@@ -200,8 +200,132 @@
       color: #e91e63;
       font-weight: 500;
     }
-  </style>
-</head>
+
+    @media (max-width: 1024px) {
+      .admin-container {
+        grid-template-columns: 200px 1fr;
+      }
+
+      main {
+        padding: 1.5rem;
+      }
+
+      header {
+        padding: 0.75rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 0;
+      }
+
+      .sidebar-header {
+        font-size: 1.1rem;
+      }
+
+      aside a {
+        padding: 0.75rem 1.5rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      .form-container {
+        max-width: 100%;
+        padding: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      input, textarea, select {
+        padding: 0.6rem;
+        font-size: 16px;
+      }
+
+      .form-actions {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .photos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      aside {
+        padding: 0.5rem 0;
+      }
+
+      aside ul {
+        display: flex;
+        flex-direction: column;
+      }
+
+      aside a {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+      }
+
+      .sidebar-header {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+      }
+
+      main {
+        padding: 0.75rem;
+      }
+
+      .form-container {
+        padding: 1rem;
+      }
+
+      header h2 {
+        font-size: 1.2rem;
+      }
+
+      input, textarea, select {
+        font-size: 16px;
+        padding: 0.5rem;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .file-input-wrapper {
+        padding: 1rem;
+      }
+
+      small {
+        font-size: 0.75rem;
+      }
+    }
 <body>
   <div class="admin-container">
     <aside>

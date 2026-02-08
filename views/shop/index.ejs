@@ -254,7 +254,214 @@
     .auth-links a:hover {
       background: #c2185b;
     }
-  </style>
+
+    /* Skeleton Loading Styles */
+    @keyframes skeleton-loading {
+      0% {
+        background-color: #e0e0e0;
+      }
+      100% {
+        background-color: #f0f0f0;
+      }
+    }
+
+    .skeleton {
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    .skeleton-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .skeleton-image {
+      width: 100%;
+      height: 250px;
+      background: #e0e0e0;
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    .skeleton-content {
+      padding: 1.5rem;
+    }
+
+    .skeleton-title {
+      height: 20px;
+      background: #e0e0e0;
+      margin-bottom: 0.75rem;
+      border-radius: 4px;
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    .skeleton-price {
+      height: 24px;
+      background: #e0e0e0;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      width: 60%;
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    .skeleton-text {
+      height: 16px;
+      background: #e0e0e0;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    .skeleton-text:last-child {
+      margin-bottom: 1rem;
+    }
+
+    .skeleton-button {
+      height: 40px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      animation: skeleton-loading 1.5s infinite alternate;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+      }
+
+      nav ul {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .logo {
+        width: 100%;
+        order: 1;
+      }
+
+      nav ul {
+        order: 2;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      nav ul li a {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .auth-links {
+        order: 3;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .auth-links a {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .hero {
+        padding: 2rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+      }
+
+      .filters {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .filter-btn {
+        white-space: nowrap;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .product-name {
+        font-size: 0.95rem;
+      }
+
+      .product-price {
+        font-size: 1.1rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .container {
+        padding: 1rem 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1.2rem;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .product-card {
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      }
+
+      .product-image {
+        height: 200px;
+      }
+
+      .hero {
+        padding: 1.5rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.3rem;
+      }
+
+      .hero p {
+        font-size: 0.8rem;
+      }
+
+      .auth-links {
+        gap: 0.3rem;
+      }
+
+      .auth-links a {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
 </head>
 <body>
   <header>
@@ -292,30 +499,46 @@
       <% }); %>
     </div>
 
-    <% if (products.length === 0) { %>
-      <p style="text-align: center; padding: 2rem;">No products found</p>
-    <% } else { %>
-      <div class="products-grid">
-        <% products.forEach(product => { %>
-          <a href="/product/<%= product.slug %>" class="product-card">
-            <div class="product-image">
-              <% if (product.firstPhoto) { %>
-                <img src="<%= product.firstPhoto %>" alt="<%= product.name %>">
-              <% } else { %>
-                📦
-              <% } %>
-            </div>
-            <div class="product-info">
-              <div class="product-name"><%= product.name %></div>
-              <div class="product-price">₹<%= product.price %></div>
-              <div class="product-description"><%= product.description || 'Beautiful gift item' %></div>
-              <button class="btn btn-secondary">View Details</button>
-            </div>
-          </a>
-        <% }); %>
-      </div>
-    <% } %>
-  </div>
+    <div id="skeleton-loader" class="products-grid" style="display: none;">
+      <% for (let i = 0; i < 8; i++) { %>
+        <div class="skeleton-card">
+          <div class="skeleton-image"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-price"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-button"></div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <div id="products-container">
+      <% if (products.length === 0) { %>
+        <p style="text-align: center; padding: 2rem;">No products found</p>
+      <% } else { %>
+        <div class="products-grid">
+          <% products.forEach(product => { %>
+            <a href="/product/<%= product.slug %>" class="product-card">
+              <div class="product-image">
+                <% if (product.firstPhoto) { %>
+                  <img src="<%= product.firstPhoto %>" alt="<%= product.name %>">
+                <% } else { %>
+                  📦
+                <% } %>
+              </div>
+              <div class="product-info">
+                <div class="product-name"><%= product.name %></div>
+                <div class="product-price">₹<%= product.price %></div>
+                <div class="product-description"><%= product.description || 'Beautiful gift item' %></div>
+                <button class="btn btn-secondary">View Details</button>
+              </div>
+            </a>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
 
   <footer>
     <div class="container">
@@ -349,5 +572,35 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Show skeleton loader on initial page load if content is available
+    document.addEventListener('DOMContentLoaded', function() {
+      const productsContainer = document.getElementById('products-container');
+      const skeletonLoader = document.getElementById('skeleton-loader');
+      
+      // If there are products/content, hide skeleton loader
+      if (productsContainer && productsContainer.textContent.trim()) {
+        if (skeletonLoader) {
+          skeletonLoader.style.display = 'none';
+        }
+      } else {
+        // Show skeleton if no content
+        if (skeletonLoader) {
+          skeletonLoader.style.display = 'grid';
+        }
+      }
+    });
+
+    // Lazy load images with skeleton effect
+    const images = document.querySelectorAll('.product-image img');
+    images.forEach(img => {
+      img.addEventListener('load', function() {
+        this.style.opacity = '1';
+      });
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.3s ease-in';
+    });
+  </script>
 </body>
 </html>
