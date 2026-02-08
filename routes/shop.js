@@ -16,17 +16,26 @@ router.get('/', async (req, res) => {
 
     const productsResult = await pool.query(query, params);
     
-    // Fetch photos for each product
+    // Fetch photos for each product (handle missing product_photos table gracefully)
     const productsWithPhotos = await Promise.all(
       productsResult.rows.map(async (product) => {
-        const photosResult = await pool.query(
-          'SELECT photo_url FROM product_photos WHERE product_id = $1 ORDER BY display_order LIMIT 1',
-          [product.id]
-        );
-        return {
-          ...product,
-          firstPhoto: photosResult.rows.length > 0 ? photosResult.rows[0].photo_url : null
-        };
+        try {
+          const photosResult = await pool.query(
+            'SELECT photo_url FROM product_photos WHERE product_id = $1 ORDER BY display_order LIMIT 1',
+            [product.id]
+          );
+          return {
+            ...product,
+            firstPhoto: photosResult.rows.length > 0 ? photosResult.rows[0].photo_url : null
+          };
+        } catch (photoErr) {
+          // If table doesn't exist or another photo-related error occurs, log and continue without photos
+          console.warn('Photo query failed for product', product.id, photoErr.message);
+          return {
+            ...product,
+            firstPhoto: null
+          };
+        }
       })
     );
 
@@ -54,14 +63,21 @@ router.get('/product/:slug', async (req, res) => {
       return res.status(404).render('404');
     }
 
-    const photosResult = await pool.query(
-      'SELECT * FROM product_photos WHERE product_id = $1 ORDER BY display_order',
-      [result.rows[0].id]
-    );
+    let photos = [];
+    try {
+      const photosResult = await pool.query(
+        'SELECT * FROM product_photos WHERE product_id = $1 ORDER BY display_order',
+        [result.rows[0].id]
+      );
+      photos = photosResult.rows;
+    } catch (photoErr) {
+      console.warn('Failed to load product photos for product', result.rows[0].id, photoErr.message);
+      photos = [];
+    }
 
     res.render('shop/product', {
       product: result.rows[0],
-      photos: photosResult.rows,
+      photos,
       user: req.session.userId ? { id: req.session.userId } : null
     });
   } catch (err) {
