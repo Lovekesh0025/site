@@ -1,21 +1,33 @@
-const { Pool } = require('pg');
 require('dotenv').config();
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'website_db',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-});
+// Check if PostgreSQL should be used (based on env or direct fallback)
+const usePostgres = process.env.USE_POSTGRESQL === 'true';
 
-pool.on('error', (err) => {
-  console.error('PostgreSQL Connection Error:', err.message);
-  console.error('\nMake sure:');
-  console.error('1. PostgreSQL is installed and running');
-  console.error('2. Database "website_db" exists');
-  console.error('3. Credentials in .env match your PostgreSQL setup');
-  console.error('4. Run: node scripts/seed.js to initialize tables\n');
-});
+let pool;
+
+if (usePostgres) {
+  try {
+    const { Pool } = require('pg');
+    pool = new Pool({
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 5432,
+      database: process.env.DB_NAME || 'website_db',
+      user: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASSWORD || 'postgres',
+    });
+
+    pool.on('error', (err) => {
+      console.error('PostgreSQL Connection Error:', err.message);
+    });
+
+    console.log('Using PostgreSQL database');
+  } catch (err) {
+    console.error('PostgreSQL not available, using mock database');
+    pool = require('./mock-database');
+  }
+} else {
+  console.log('Using mock database (no PostgreSQL)');
+  pool = require('./mock-database');
+}
 
 module.exports = pool;
