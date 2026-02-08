@@ -24,8 +24,13 @@ router.get('/', async (req, res) => {
       user: req.session.userId ? { id: req.session.userId } : null
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).render('error', { error: 'Error loading shop' });
+    console.error('Shop Error:', err.message);
+    const errorMsg = err.message.includes('connect') 
+      ? 'Database connection failed. Please ensure PostgreSQL is running and run: npm run seed'
+      : err.message.includes('relation') 
+      ? 'Database tables not found. Please run: npm run seed'
+      : 'Error loading shop';
+    res.status(500).render('error', { error: errorMsg });
   }
 });
 
