@@ -1,0 +1,287 @@
+CupidCrafts E-Commerce Website Project Tree
+═════════════════════════════════════════════════════════════════
+
+website/
+│
+├── 📄 server.js                          Main application entry point
+├── 📄 package.json                       Project metadata & dependencies  
+├── 📄 package-lock.json                  Locked dependency versions
+├── 📄 .env                               Environment configuration
+├── 📄 .gitignore                         Git ignore settings
+│
+├── 📂 config/
+│   ├── 📄 database.js                    PostgreSQL connection setup
+│   └── 📄 schema.js                      Database table definitions
+│
+├── 📂 routes/
+│   ├── 📄 auth.js                        Authentication routes
+│   │   ├── POST /auth/register           User registration
+│   │   ├── POST /auth/login              User login
+│   │   └── GET  /auth/logout             User logout
+│   │
+│   ├── 📄 shop.js                        Shopping routes
+│   │   ├── GET  /                        Homepage with products
+│   │   ├── GET  /product/:slug           Product details
+│   │   ├── GET  /cart                    Shopping cart
+│   │   └── POST /cart/add                Add to cart
+│   │
+│   └── 📄 admin.js                       Admin routes
+│       ├── GET  /admin/dashboard         Admin dashboard
+│       ├── GET  /admin/products          Product management
+│       ├── POST /admin/products          Add product
+│       ├── GET  /admin/products/:id/edit Edit product
+│       ├── POST /admin/products/:id      Update product
+│       ├── POST /admin/products/:id/delete Delete product
+│       ├── GET  /admin/categories        Category management
+│       ├── POST /admin/categories        Add category
+│       ├── POST /admin/categories/:id/delete Delete category
+│       └── GET  /admin/orders            View orders
+│
+├── 📂 views/
+│   │
+│   ├── 📄 layout.ejs                     Base HTML layout
+│   │
+│   ├── 📂 shop/
+│   │   ├── 📄 index.ejs                  Homepage/product listing
+│   │   ├── 📄 product.ejs                Product detail page
+│   │   └── 📄 cart.ejs                   Shopping cart page
+│   │
+│   ├── 📂 auth/
+│   │   ├── 📄 login.ejs                  Login form page
+│   │   └── 📄 register.ejs               Registration form page
+│   │
+│   ├── 📂 admin/
+│   │   ├── 📄 dashboard.ejs              Admin dashboard
+│   │   ├── 📄 products.ejs               Product management page
+│   │   ├── 📄 product-form.ejs           Add/Edit product form
+│   │   ├── 📄 categories.ejs             Category management page
+│   │   └── 📄 orders.ejs                 Order management page
+│   │
+│   ├── 📄 404.ejs                        404 Not Found page
+│   └── 📄 error.ejs                      Error page
+│
+├── 📂 scripts/
+│   └── 📄 seed.js                        Database seeding script
+│       ├── Creates tables
+│       ├── Adds categories
+│       ├── Adds sample products
+│       └── Creates admin user
+│
+├── 📂 public/                            Static files (CSS, JS, images)
+│   └── (CSS is inline in views for this version)
+│
+├── 📂 node_modules/                      Installed dependencies
+│   ├── express/
+│   ├── pg/
+│   ├── ejs/
+│   ├── express-session/
+│   ├── bcryptjs/
+│   ├── dotenv/
+│   ├── multer/
+│   ├── express-validator/
+│   ├── nodemon/
+│   └── ... (145+ packages total)
+│
+└── 📚 Documentation/
+    ├── 📄 README.md                      Full documentation
+    ├── 📄 QUICKSTART.md                  Quick start guide
+    ├── 📄 COMPLETE_GUIDE.md              Comprehensive guide
+    ├── 📄 SETUP_COMPLETE.md              Setup details
+    ├── 📄 INSTALLATION_COMPLETE.md       Installation checklist
+    ├── 📄 START_HERE.txt                 Quick reference
+    ├── 📄 FINAL_SUMMARY.txt              Executive summary
+    └── 📄 PROJECT_SUMMARY.txt            Text summary
+
+═════════════════════════════════════════════════════════════════
+
+DATABASE STRUCTURE:
+
+PostgreSQL - cutegoods_db
+├── users
+│   ├── id (PRIMARY KEY)
+│   ├── email (UNIQUE)
+│   ├── password (hashed)
+│   ├── is_admin (BOOLEAN)
+│   └── created_at (TIMESTAMP)
+│
+├── categories
+│   ├── id (PRIMARY KEY)
+│   ├── name (VARCHAR)
+│   ├── slug (UNIQUE)
+│   └── created_at (TIMESTAMP)
+│
+├── products
+│   ├── id (PRIMARY KEY)
+│   ├── name (VARCHAR)
+│   ├── slug (UNIQUE)
+│   ├── description (TEXT)
+│   ├── price (DECIMAL)
+│   ├── category_id (FOREIGN KEY)
+│   ├── image (VARCHAR)
+│   ├── stock (INTEGER)
+│   ├── featured (BOOLEAN)
+│   ├── created_at (TIMESTAMP)
+│   └── updated_at (TIMESTAMP)
+│
+├── orders
+│   ├── id (PRIMARY KEY)
+│   ├── user_id (FOREIGN KEY)
+│   ├── total_amount (DECIMAL)
+│   ├── status (VARCHAR)
+│   └── created_at (TIMESTAMP)
+│
+├── order_items
+│   ├── id (PRIMARY KEY)
+│   ├── order_id (FOREIGN KEY)
+│   ├── product_id (FOREIGN KEY)
+│   ├── quantity (INTEGER)
+│   └── price (DECIMAL)
+│
+└── cart
+    ├── id (PRIMARY KEY)
+    ├── user_id (FOREIGN KEY)
+    ├── product_id (FOREIGN KEY)
+    ├── quantity (INTEGER)
+    └── created_at (TIMESTAMP)
+
+═════════════════════════════════════════════════════════════════
+
+DEPENDENCIES (9 packages):
+
+express@4.22.1              Web framework
+pg@8.18.0                   PostgreSQL driver
+ejs@3.1.10                  Template engine
+express-session@1.19.0      Session management
+bcryptjs@2.4.3              Password hashing
+dotenv@16.6.1               Environment variables
+multer@1.4.5-lts.2          File uploads
+express-validator@7.3.1     Input validation
+nodemon@3.1.11              Development auto-reload
+
+═════════════════════════════════════════════════════════════════
+
+API ENDPOINTS SUMMARY:
+
+PUBLIC ENDPOINTS (No Auth Required):
+GET    /                           Homepage
+GET    /product/:slug              Product details
+GET    /auth/login                 Login page
+GET    /auth/register              Register page
+POST   /auth/register              Register user
+POST   /auth/login                 Login user
+GET    /auth/logout                Logout user
+
+PROTECTED ENDPOINTS (Auth Required):
+GET    /cart                       View cart
+POST   /cart/add                   Add to cart
+
+ADMIN ENDPOINTS (Admin Auth Required):
+GET    /admin/dashboard            Dashboard
+GET    /admin/products             Product list
+GET    /admin/products/new         Add product form
+POST   /admin/products             Create product
+GET    /admin/products/:id/edit    Edit form
+POST   /admin/products/:id         Update product
+POST   /admin/products/:id/delete  Delete product
+GET    /admin/categories           Categories
+POST   /admin/categories           Add category
+POST   /admin/categories/:id/delete Delete category
+GET    /admin/orders               Orders list
+
+═════════════════════════════════════════════════════════════════
+
+FEATURES IMPLEMENTED:
+
+✅ User Registration & Authentication
+✅ Secure Password Hashing (bcryptjs)
+✅ Session Management
+✅ Product Catalog with Categories
+✅ Product Filtering by Category
+✅ Product Details View
+✅ Shopping Cart System
+✅ Admin Dashboard
+✅ Product CRUD Operations
+✅ Category Management
+✅ Order Tracking
+✅ Role-Based Access Control
+✅ Responsive Design
+✅ Error Handling
+✅ SQL Injection Prevention
+✅ Environment Configuration
+
+═════════════════════════════════════════════════════════════════
+
+SAMPLE DATA:
+
+Products (8):
+1. Anatomical Heart Couple Hoodie (₹2799)
+2. Sweet Charm Embossed Mug (₹599)
+3. Radiant Love Multi-Heart Bracelet (₹1049)
+4. Ultimate Valentine Treat Box (₹2199)
+5. Reversible Mood Octopus Plush Toy (₹299)
+6. Scarlet Lovestone Pendant (₹1099)
+7. Golden Heartline Bracelet (₹899)
+8. Amor Petite Heart Ring (₹349)
+
+Categories (10):
+Soft Toys, Pendants, Bracelets, Rings, Mugs,
+Hampers, Hoodies, T-Shirts, Candles, Bag Charms
+
+Admin User:
+Email: admin@cupidcrafts.com
+Password: admin123
+
+═════════════════════════════════════════════════════════════════
+
+QUICK COMMAND REFERENCE:
+
+npm start              Start server (production)
+npm run dev           Start server with auto-reload
+npm run seed          Initialize database with sample data
+npm install           Install dependencies
+
+═════════════════════════════════════════════════════════════════
+
+KEY FILES QUICK REFERENCE:
+
+server.js              → Start here to understand the app
+routes/                → API and page routes
+views/                 → HTML templates
+config/database.js     → Database configuration
+.env                   → Environment settings
+package.json           → Dependencies and scripts
+
+═════════════════════════════════════════════════════════════════
+
+ENVIRONMENT VARIABLES (.env):
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=cutegoods_db
+DB_USER=postgres
+DB_PASSWORD=localdb
+SESSION_SECRET=your-super-secret-session-key-change-this
+NODE_ENV=development
+PORT=3000
+
+═════════════════════════════════════════════════════════════════
+
+FOLDER SIZES (Approximate):
+
+config/               ~5 KB
+routes/               ~12 KB
+views/                ~50 KB
+scripts/              ~3 KB
+node_modules/         ~150 MB
+Total (with node_modules): ~150 MB
+
+═════════════════════════════════════════════════════════════════
+
+PROJECT READY FOR:
+
+✅ Development
+✅ Testing
+✅ Customization
+✅ Deployment
+
+═════════════════════════════════════════════════════════════════

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - CupidCrafts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #fff;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #e91e63;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #e91e63;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 20px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+    }
+
+    .filters {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #e91e63;
+      color: white;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 3rem;
+    }
+
+    .product-info {
+      padding: 1.5rem;
+    }
+
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .product-price {
+      color: #e91e63;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .product-description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: #e91e63;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #c2185b;
+    }
+
+    .btn-secondary {
+      background: #2196F3;
+    }
+
+    .btn-secondary:hover {
+      background: #1976D2;
+    }
+
+    footer {
+      background: #f8f8f8;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      border-top: 1px solid #eee;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      color: #e91e63;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section a {
+      text-decoration: none;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: #e91e63;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 2rem;
+      color: #666;
+    }
+
+    .auth-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .auth-links a {
+      padding: 0.5rem 1rem;
+      background: #e91e63;
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .auth-links a:hover {
+      background: #c2185b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">CupidCrafts ♥</div>
+      <ul>
+        <li><a href="/">Shop</a></li>
+        <li><a href="/?category=soft-toys">Soft Toys</a></li>
+        <li><a href="/?category=mugs">Mugs</a></li>
+        <li><a href="/?category=hoodies">Hoodies</a></li>
+        <li><a href="/cart">Cart</a></li>
+      </ul>
+      <div class="auth-links">
+        <% if (user) { %>
+          <a href="/cart">Cart</a>
+          <a href="/auth/logout">Logout</a>
+        <% } else { %>
+          <a href="/auth/login">Login</a>
+          <a href="/auth/register">Register</a>
+        <% } %>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Our Collection</h1>
+      <p>Discover beautiful gifts for every occasion</p>
+    </div>
+
+    <div class="filters">
+      <a href="/" class="filter-btn <%= !currentCategory ? 'active' : '' %>">All</a>
+      <% categories.forEach(cat => { %>
+        <a href="/?category=<%= cat.slug %>" class="filter-btn <%= currentCategory === cat.slug ? 'active' : '' %>"><%= cat.name %></a>
+      <% }); %>
+    </div>
+
+    <% if (products.length === 0) { %>
+      <p style="text-align: center; padding: 2rem;">No products found</p>
+    <% } else { %>
+      <div class="products-grid">
+        <% products.forEach(product => { %>
+          <a href="/product/<%= product.slug %>" class="product-card">
+            <div class="product-image">📦</div>
+            <div class="product-info">
+              <div class="product-name"><%= product.name %></div>
+              <div class="product-price">₹<%= product.price %></div>
+              <div class="product-description"><%= product.description || 'Beautiful gift item' %></div>
+              <button class="btn btn-secondary">View Details</button>
+            </div>
+          </a>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/">Shop</a></li>
+            <li><a href="/cart">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Policies</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Refund Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <ul>
+            <li><a href="mailto:support@cupidcrafts.com">Email: support@cupidcrafts.com</a></li>
+            <li><a href="tel:+917737226509">Phone: +91 77372 26509</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2024 CupidCrafts. All rights reserved. Made with ♥ in India
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

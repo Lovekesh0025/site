@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shopping Cart - CupidCrafts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+    }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .cart-table th,
+    .cart-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-table th {
+      background: #f5f5f5;
+      font-weight: bold;
+    }
+
+    .cart-summary {
+      background: #f5f5f5;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 400px;
+      margin-left: auto;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .summary-row.total {
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-top: 2px solid #ddd;
+      padding-top: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #e91e63;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      background: #c2185b;
+    }
+
+    .btn-secondary {
+      background: #2196F3;
+    }
+
+    .btn-secondary:hover {
+      background: #1976D2;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Shopping Cart</h1>
+
+    <% if (items.length === 0) { %>
+      <div class="empty-message">
+        <h2>Your cart is empty</h2>
+        <p>Start shopping and add some beautiful gifts!</p>
+        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+      </div>
+    <% } else { %>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td>₹<%= item.price %></td>
+              <td><%= item.quantity %></td>
+              <td>₹<%= (item.price * item.quantity).toFixed(2) %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>₹<%= total.toFixed(2) %></span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span>Free</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span>₹<%= total.toFixed(2) %></span>
+        </div>
+        <button class="btn" onclick="checkout()">Proceed to Checkout</button>
+        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    function checkout() {
+      alert('Checkout feature coming soon!');
+    }
+  </script>
+</body>
+</html>
