@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
     }
 
     const productsResult = await pool.query(query, params);
+    console.log('📦 Products query result:', productsResult.rows.length, 'products');
     
     // Fetch photos for each product (handle missing product_photos table gracefully)
     const productsWithPhotos = await Promise.all(
